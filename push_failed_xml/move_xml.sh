@@ -7,6 +7,9 @@
 # Script by: Jesus Rueda - MTY Local TE
 #
 
+
+#######CAMBIO SOBRE BRANCH"
+
 XML_PATH="/dfcxact/workarea/JesusRueda/scripts/push_failed_xml/failed_xml_dir"
 FAILED_MT="1S7X56"
 MOVE_AMOUNT="5"
