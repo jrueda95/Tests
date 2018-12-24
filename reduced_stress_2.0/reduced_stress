@@ -1,6 +1,9 @@
 #!/bin/bash
-#Rueda Torres
-#This changed remotely
+#
+# Use this file in the L1 server.
+# You will need a file named lista_stress in /tmp/, which will contain all the SN to which the stress will be reduced.
+# Script by: Jesus Rueda, MTY Local TE
+#
 
 while true; do
     for sn in $(cat /tmp/lista_stress); do 
