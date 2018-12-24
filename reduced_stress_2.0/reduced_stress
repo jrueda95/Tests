@@ -1,0 +1,34 @@
+#!/bin/bash
+
+while true; do
+    for sn in $(cat /tmp/lista_stress); do 
+        if [[ -f $(ls -d1 /dfcxact/mtsn/*`echo $sn|rev|cut -c 1-3|rev` | xargs -I {} grep -l $sn {}/uwip.xml) ]] 2>/dev/null ;then 
+            mtsn=$(ls -d1 /dfcxact/mtsn/*`echo $sn|rev|cut -c 1-3|rev` | xargs -I {} grep -l $sn {}/uwip.xml|cut -d/ -f4);
+            if [[ -f /dfcxact/mtsn/$mtsn/rt/variables ]] 2> /dev/null; then
+                testcase=$(grep pgmname /dfcxact/mtsn/$mtsn/rt/variables|grep -v "fail"|sed 's/"//g'|awk '{ print $3 }');
+                op=$(grep current_op /dfcxact/mtsn/$mtsn/rt/variables|sed 's/"//g'|awk '{ print $3 }'); 
+                if [[ $testcase == "reboot_if_needed.py" && $op == "runin" ]]; then 
+                    file="winpe.cmd";
+                    echo "$sn EN ESTRES";
+                    echo "" > /dfcxact/mtsn/$mtsn/$file;
+                    echo "python winpe.py --type fpga_stress --flash test --time 5" >> /dfcxact/mtsn/$mtsn/$file;
+					echo "python winpe.py --type prime95_stress --flash test --time 5" >> /dfcxact/mtsn/$mtsn/$file; 					
+                    echo "" >> /dfcxact/mtsn/$mtsn/$file;
+                    echo "python winpe.py --virtual_reseat" >> /dfcxact/mtsn/$mtsn/$file; 
+                elif [[  $testcase == "fvt_pass_screen.py" && $op == "fvt" ]]; then
+                    echo ">>>>>>>>>>>>>>>>> $sn PASSED TEST <<<<<<<<<<<<<<<<<"
+                elif [[  $op == "fvt" || $op == "hddsetup2" ]]; then
+                    echo "$sn PASSED STRESS!! CURRENTLY RUNNING: $op";                
+                else 
+                    echo "$mtsn NO ESTA EN FPGA STRESS/PRIME95"; 
+                fi; 
+            else
+                echo "$sn NO HA INICIADO PRUEBA";
+            fi;
+        else 
+            echo "$sn NO EXISTE";
+        fi; 
+    done ; 
+    echo "Waiting 10 secs to execute again"; 
+    sleep 10s;
+done
