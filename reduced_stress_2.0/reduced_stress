@@ -1,5 +1,5 @@
 #!/bin/bash
-#Rueda
+#Rueda Jesus
 #This changed remotely
 while true; do
     for sn in $(cat /tmp/lista_stress); do 
