@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#Rueda
 while true; do
     for sn in $(cat /tmp/lista_stress); do 
         if [[ -f $(ls -d1 /dfcxact/mtsn/*`echo $sn|rev|cut -c 1-3|rev` | xargs -I {} grep -l $sn {}/uwip.xml) ]] 2>/dev/null ;then 
