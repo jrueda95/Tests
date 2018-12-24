@@ -2,7 +2,7 @@
 #
 # Use this file in the L1 server.
 # You will need a file named lista_stress in /tmp/, which will contain all the SN to which the stress will be reduced.
-# Script by: Jesus Rueda, MTY Local TE
+# This is for branch_test1
 #
 # Prueba 1
 
